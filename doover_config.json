@@ -1,51 +1,122 @@
 {
     "jcb_livelink_platform": {
         "name": "jcb_livelink_platform",
-        "display_name": "jcb-livelink-platform",
-        "type": "DEV",
+        "display_name": "JCB LiveLink Platform",
+        "type": "PRO",
         "visibility": "PUB",
         "allow_many": true,
         "description": "Uses the JCB LiveLink API to pull in available information for display in a UI on the Doover platform via the Doover tag system",
         "long_description": "README.md",
         "depends_on": [],
-        "owner_org_key": "FIX-ME",
-        "image_name": "ghcr.io/getdoover/jcb-livelink-platform:main",
-        "container_registry_profile_key": "FIX-ME",
-        "build_args": "--platform linux/amd64,linux/arm64",
+        "handler": "src.jcb_livelink_platform.handler",
+        "lambda_config": {
+            "Runtime": "python3.13",
+            "Timeout": 300,
+            "MemorySize": 128,
+            "Handler": "src.jcb_livelink_platform.handler"
+        },
+        "organisation_id": null,
+        "key": null,
+        "owner_org_id": null,
+        "code_repo_id": null,
+        "container_registry_profile_id": null,
+        "repo_branch": "main",
+        "image_name": null,
+        "icon_url": "https://www.logo.wine/a/logo/JCB_(company)/JCB_(company)-Logo.wine.svg",
+        "staging_config": {},
+        "export_config_command": null,
+        "run_command": null,
+        "lambda_arn": null,
         "config_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "$id": "",
             "title": "Application Config",
             "type": "object",
             "properties": {
-                "digital_outputs_enabled": {
-                    "title": "Digital Outputs Enabled",
-                    "x-name": "digital_outputs_enabled",
-                    "x-hidden": false,
-                    "type": "boolean",
-                    "default": true
-                },
-                "a_funny_message": {
-                    "title": "A Funny Message",
-                    "x-name": "a_funny_message",
-                    "x-hidden": false,
-                    "type": "string"
-                },
-                "simulator_app_key": {
-                    "format": "doover-application",
-                    "title": "Simulator App Key",
-                    "x-name": "simulator_app_key",
+                "api_base_url": {
+                    "title": "API Base URL",
+                    "x-name": "api_base_url",
                     "x-hidden": false,
                     "type": "string",
-                    "description": "The app key for the simulator"
+                    "description": "Base URL for the JCB LiveLink API",
+                    "default": "https://api.jcblivelink.com"
+                },
+                "api_token": {
+                    "title": "API Token",
+                    "x-name": "api_token",
+                    "x-hidden": false,
+                    "type": "string",
+                    "description": "API authentication token/key obtained from JCB LiveLink"
+                },
+                "poll_interval_(minutes)": {
+                    "title": "Poll Interval (minutes)",
+                    "x-name": "poll_interval_(minutes)",
+                    "x-hidden": false,
+                    "type": "integer",
+                    "description": "How often to poll the JCB LiveLink API (in minutes). Used as the schedule rate.",
+                    "default": 15
+                },
+                "machine_ids": {
+                    "title": "Machine IDs",
+                    "x-name": "machine_ids",
+                    "x-hidden": false,
+                    "type": "array",
+                    "description": "Specific machine IDs to poll. If empty, polls all available machines.",
+                    "items": {
+                        "title": "Machine ID",
+                        "x-name": "machine_id",
+                        "x-hidden": false,
+                        "type": "string"
+                    }
+                },
+                "include_location": {
+                    "title": "Include Location",
+                    "x-name": "include_location",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Include GPS location data in tags",
+                    "default": true
+                },
+                "include_fuel": {
+                    "title": "Include Fuel",
+                    "x-name": "include_fuel",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Include fuel consumption data in tags",
+                    "default": true
+                },
+                "include_hours": {
+                    "title": "Include Hours",
+                    "x-name": "include_hours",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Include operating hours data in tags",
+                    "default": true
+                },
+                "include_alerts": {
+                    "title": "Include Alerts",
+                    "x-name": "include_alerts",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Include alert/notification data in tags",
+                    "default": true
+                },
+                "include_utilisation": {
+                    "title": "Include Utilisation",
+                    "x-name": "include_utilisation",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Include utilisation metrics in tags",
+                    "default": true
                 }
             },
             "additionalElements": true,
             "required": [
-                "a_funny_message",
-                "simulator_app_key"
+                "api_token",
+                "machine_ids"
             ]
         },
-        "organisation_id": "FIX-ME"
+        "id": "145415644374927618",
+        "banner_url": null
     }
 }

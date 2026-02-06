@@ -1,10 +1,7 @@
-from pydoover.docker import run_app
+from .application import JcbLivelinkPlatformProcessor
 
-from .application import JcbLivelinkPlatformApplication
-from .app_config import JcbLivelinkPlatformConfig
 
-def main():
-    """
-    Run the application.
-    """
-    run_app(JcbLivelinkPlatformApplication(config=JcbLivelinkPlatformConfig()))
+def handler(event, context):
+    """Lambda handler entry point for JCB LiveLink Platform processor."""
+    processor = JcbLivelinkPlatformProcessor(**event)
+    processor.execute()
